@@ -5,10 +5,10 @@ import com.anjin.ccc.dto.QuoteResponse;
 import com.anjin.ccc.service.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class QuoteController {
@@ -28,5 +28,17 @@ public class QuoteController {
     }
 
 
+    @PostMapping("/option")
+    public ResponseEntity getOption(@RequestBody List<String> mainProducts) {
+        Map<String, List<String>> response = quoteService.getOption(mainProducts);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping("/desc")
+    public ResponseEntity getDesc(@RequestBody List<String> products) {
+        Map<String, List<String>> response = quoteService.getDesc(products);
+        return ResponseEntity.ok(response);
+    }
 
 }

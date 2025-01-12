@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.anjin.ccc.tool.ExcelReader.readExcel;
 
 @Service
 public class QuoteService {
@@ -30,7 +33,7 @@ public class QuoteService {
     private ExcelReader excelReader;
 
     public QuoteResponse calculateQuote(QuoteRequest request) {
-        List<Map<String, String>> data = excelReader.readExcel(excelFilePath, 1);
+        List<Map<String, String>> data = readExcel(excelFilePath, 1);
         /**
          * coding
          */
@@ -198,6 +201,39 @@ public class QuoteService {
 //    }
 
 
+
+
+    public static Map<String, List<String>> getOption(List<String> mainProducts) {
+        List<Map<String, String>> data = readExcel(excelFilePath, 1);
+        Map<String, List<String>> resMap = new HashMap();
+        for (String mainProduct : mainProducts) {
+            List<String> options = data.stream()
+                    .filter(row -> mainProduct.equals(row.get("Main Product")))
+                    .map(row -> row.get("Option"))
+                    .filter(option -> option != null && !option.isEmpty())
+                    .collect(Collectors.toList());
+
+            resMap.put(mainProduct, options);
+        }
+
+        return resMap;
+    }
+
+    public static Map<String, List<String>> getDesc(List<String> products) {
+        List<Map<String, String>> data = readExcel(excelFilePath, 2);
+        Map<String, List<String>> resMap = new HashMap();
+        for (String mainProduct : products) {
+            List<String> options = data.stream()
+                    .filter(row -> mainProduct.equals(row.get("option product")))
+                    .map(row -> row.get("Desc"))
+                    .filter(option -> option != null && !option.isEmpty())
+                    .collect(Collectors.toList());
+
+            resMap.put(mainProduct, options);
+        }
+
+        return resMap;
+    }
 
 
 }
