@@ -20,6 +20,7 @@ public class QuoteResponse {
         private String mainProduct;
         private String option;
         private int quantity;
+        private BigDecimal subTotal;
     }
 
 }

@@ -66,10 +66,14 @@ public class QuoteService {
                 }
 
                 BigDecimal price = new BigDecimal(priceValue);
-                BigDecimal amount = price.multiply(BigDecimal.valueOf(quantity));
-                totalCost = totalCost.add(amount);
+//                BigDecimal amount = price.multiply(BigDecimal.valueOf(quantity));
+//                totalCost = totalCost.add(amount);
+//
+//                responseProducts.add(new QuoteResponse.ProductDetail(mainProduct, option, quantity));
+                BigDecimal subTotal = price.multiply(BigDecimal.valueOf(quantity));
+                totalCost = totalCost.add(subTotal);
 
-                responseProducts.add(new QuoteResponse.ProductDetail(mainProduct, option, quantity));
+                responseProducts.add(new QuoteResponse.ProductDetail(mainProduct, option, quantity, subTotal));
             } else {
                 // 如果没有找到匹配的产品和选项，可以处理异常或记录日志
                 System.out.println("No matching product found for: " + mainProduct + " with option: " + option);
